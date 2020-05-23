@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Dr. S. KaANNIMUTHU" />
+
+<meta name="date" content="2020-05-23" />
+
+<title>Predictions of using the Weight Lifting Exercises Dataset</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Predictions of using the Weight Lifting Exercises Dataset</h1>
+<h4 class="author">Dr. S. KaANNIMUTHU</h4>
+<h4 class="date">2020-05-23</h4>
+
+</div>
+
+
+<pre class="r"><code>install_load &lt;- function (package1, ...)  {
+  
+  # convert arguments to vector
+  packages &lt;- c(package1, ...)
+  
+  # start loop to determine if each package is installed
+  for(package in packages){
+    
+    # if package is installed locally, load
+    if(package %in% rownames(installed.packages()))
+      do.call(&#39;library&#39;, list(package))
+    
+    #else use install.packages then load
+    else {
+      install.packages(package, repos = &quot;http://cran.stat.unipd.it/&quot;)
+      do.call(&quot;library&quot;, list(package))
+    }
+    
+  }
+}
+libs = c(&quot;caret&quot;, &quot;dplyr&quot;, &quot;VIM&quot;)
+install_load(libs)</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre><code>## Installing package into &#39;C:/Users/ROHINI/Documents/R/win-library/4.0&#39;
+## (as &#39;lib&#39; is unspecified)</code></pre>
+<pre><code>## also installing the dependencies &#39;readr&#39;, &#39;cellranger&#39;, &#39;progress&#39;, &#39;zip&#39;, &#39;SparseM&#39;, &#39;MatrixModels&#39;, &#39;haven&#39;, &#39;readxl&#39;, &#39;openxlsx&#39;, &#39;minqa&#39;, &#39;nloptr&#39;, &#39;statmod&#39;, &#39;zoo&#39;, &#39;carData&#39;, &#39;abind&#39;, &#39;pbkrtest&#39;, &#39;quantreg&#39;, &#39;maptools&#39;, &#39;rio&#39;, &#39;lme4&#39;, &#39;DEoptimR&#39;, &#39;lmtest&#39;, &#39;RcppEigen&#39;, &#39;car&#39;, &#39;robustbase&#39;, &#39;sp&#39;, &#39;vcd&#39;, &#39;laeken&#39;, &#39;ranger&#39;</code></pre>
+<pre><code>## package &#39;readr&#39; successfully unpacked and MD5 sums checked
+## package &#39;cellranger&#39; successfully unpacked and MD5 sums checked
+## package &#39;progress&#39; successfully unpacked and MD5 sums checked
+## package &#39;zip&#39; successfully unpacked and MD5 sums checked
+## package &#39;SparseM&#39; successfully unpacked and MD5 sums checked
+## package &#39;MatrixModels&#39; successfully unpacked and MD5 sums checked
+## package &#39;haven&#39; successfully unpacked and MD5 sums checked
+## package &#39;readxl&#39; successfully unpacked and MD5 sums checked
+## package &#39;openxlsx&#39; successfully unpacked and MD5 sums checked
+## package &#39;minqa&#39; successfully unpacked and MD5 sums checked
+## package &#39;nloptr&#39; successfully unpacked and MD5 sums checked
+## package &#39;statmod&#39; successfully unpacked and MD5 sums checked
+## package &#39;zoo&#39; successfully unpacked and MD5 sums checked
+## package &#39;carData&#39; successfully unpacked and MD5 sums checked
+## package &#39;abind&#39; successfully unpacked and MD5 sums checked
+## package &#39;pbkrtest&#39; successfully unpacked and MD5 sums checked
+## package &#39;quantreg&#39; successfully unpacked and MD5 sums checked
+## package &#39;maptools&#39; successfully unpacked and MD5 sums checked
+## package &#39;rio&#39; successfully unpacked and MD5 sums checked
+## package &#39;lme4&#39; successfully unpacked and MD5 sums checked
+## package &#39;DEoptimR&#39; successfully unpacked and MD5 sums checked
+## package &#39;lmtest&#39; successfully unpacked and MD5 sums checked
+## package &#39;RcppEigen&#39; successfully unpacked and MD5 sums checked
+## package &#39;car&#39; successfully unpacked and MD5 sums checked
+## package &#39;robustbase&#39; successfully unpacked and MD5 sums checked
+## package &#39;sp&#39; successfully unpacked and MD5 sums checked
+## package &#39;vcd&#39; successfully unpacked and MD5 sums checked
+## package &#39;laeken&#39; successfully unpacked and MD5 sums checked
+## package &#39;ranger&#39; successfully unpacked and MD5 sums checked
+## package &#39;VIM&#39; successfully unpacked and MD5 sums checked
+## 
+## The downloaded binary packages are in
+##  C:\Users\ROHINI\AppData\Local\Temp\RtmpYls77g\downloaded_packages</code></pre>
+<pre><code>## Loading required package: colorspace</code></pre>
+<pre><code>## Loading required package: grid</code></pre>
+<pre><code>## VIM is ready to use.</code></pre>
+<pre><code>## Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues</code></pre>
+<pre><code>## 
+## Attaching package: &#39;VIM&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:datasets&#39;:
+## 
+##     sleep</code></pre>
+<div id="get-data-from-source" class="section level2">
+<h2>Get Data from Source</h2>
+<pre class="r"><code>data_dir = &quot;./data&quot;
+training_url = &quot;https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv&quot;
+test_url = &quot;https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv&quot;
+training_file = &quot;pml-training.csv&quot;
+test_file = &quot;pml-test.csv&quot;
+if (!file.exists(data_dir)) {
+  dir.create(data_dir)
+}
+if (!file.exists(file.path(data_dir, training_file))) {
+  download.file(training_url, destfile=file.path(data_dir, training_file))
+}
+if (!file.exists(file.path(data_dir, test_file))) {
+  download.file(test_url, destfile=file.path(data_dir, test_file))
+}</code></pre>
+</div>
+<div id="read-the-data" class="section level2">
+<h2>Read the Data</h2>
+<p>Load the data into 2 different data frames</p>
+<pre class="r"><code>train &lt;- read.csv(file.path(data_dir, training_file))
+test &lt;- read.csv(file.path(data_dir, test_file))
+dim(train)</code></pre>
+<pre><code>## [1] 19622   160</code></pre>
+<pre class="r"><code>dim(test)</code></pre>
+<pre><code>## [1]  20 160</code></pre>
+<pre class="r"><code>head(train)</code></pre>
+<pre><code>##   X user_name raw_timestamp_part_1 raw_timestamp_part_2   cvtd_timestamp
+## 1 1  carlitos           1323084231               788290 05/12/2011 11:23
+## 2 2  carlitos           1323084231               808298 05/12/2011 11:23
+## 3 3  carlitos           1323084231               820366 05/12/2011 11:23
+## 4 4  carlitos           1323084232               120339 05/12/2011 11:23
+## 5 5  carlitos           1323084232               196328 05/12/2011 11:23
+## 6 6  carlitos           1323084232               304277 05/12/2011 11:23
+##   new_window num_window roll_belt pitch_belt yaw_belt total_accel_belt
+## 1         no         11      1.41       8.07    -94.4                3
+## 2         no         11      1.41       8.07    -94.4                3
+## 3         no         11      1.42       8.07    -94.4                3
+## 4         no         12      1.48       8.05    -94.4                3
+## 5         no         12      1.48       8.07    -94.4                3
+## 6         no         12      1.45       8.06    -94.4                3
+##   kurtosis_roll_belt kurtosis_picth_belt kurtosis_yaw_belt skewness_roll_belt
+## 1                                                                            
+## 2                                                                            
+## 3                                                                            
+## 4                                                                            
+## 5                                                                            
+## 6                                                                            
+##   skewness_roll_belt.1 skewness_yaw_belt max_roll_belt max_picth_belt
+## 1                                                   NA             NA
+## 2                                                   NA             NA
+## 3                                                   NA             NA
+## 4                                                   NA             NA
+## 5                                                   NA             NA
+## 6                                                   NA             NA
+##   max_yaw_belt min_roll_belt min_pitch_belt min_yaw_belt amplitude_roll_belt
+## 1                         NA             NA                               NA
+## 2                         NA             NA                               NA
+## 3                         NA             NA                               NA
+## 4                         NA             NA                               NA
+## 5                         NA             NA                               NA
+## 6                         NA             NA                               NA
+##   amplitude_pitch_belt amplitude_yaw_belt var_total_accel_belt avg_roll_belt
+## 1                   NA                                      NA            NA
+## 2                   NA                                      NA            NA
+## 3                   NA                                      NA            NA
+## 4                   NA                                      NA            NA
+## 5                   NA                                      NA            NA
+## 6                   NA                                      NA            NA
+##   stddev_roll_belt var_roll_belt avg_pitch_belt stddev_pitch_belt
+## 1               NA            NA             NA                NA
+## 2               NA            NA             NA                NA
+## 3               NA            NA             NA                NA
+## 4               NA            NA             NA                NA
+## 5               NA            NA             NA                NA
+## 6               NA            NA             NA                NA
+##   var_pitch_belt avg_yaw_belt stddev_yaw_belt var_yaw_belt gyros_belt_x
+## 1             NA           NA              NA           NA         0.00
+## 2             NA           NA              NA           NA         0.02
+## 3             NA           NA              NA           NA         0.00
+## 4             NA           NA              NA           NA         0.02
+## 5             NA           NA              NA           NA         0.02
+## 6             NA           NA              NA           NA         0.02
+##   gyros_belt_y gyros_belt_z accel_belt_x accel_belt_y accel_belt_z
+## 1         0.00        -0.02          -21            4           22
+## 2         0.00        -0.02          -22            4           22
+## 3         0.00        -0.02          -20            5           23
+## 4         0.00        -0.03          -22            3           21
+## 5         0.02        -0.02          -21            2           24
+## 6         0.00        -0.02          -21            4           21
+##   magnet_belt_x magnet_belt_y magnet_belt_z roll_arm pitch_arm yaw_arm
+## 1            -3           599          -313     -128      22.5    -161
+## 2            -7           608          -311     -128      22.5    -161
+## 3            -2           600          -305     -128      22.5    -161
+## 4            -6           604          -310     -128      22.1    -161
+## 5            -6           600          -302     -128      22.1    -161
+## 6             0           603          -312     -128      22.0    -161
+##   total_accel_arm var_accel_arm avg_roll_arm stddev_roll_arm var_roll_arm
+## 1              34            NA           NA              NA           NA
+## 2              34            NA           NA              NA           NA
+## 3              34            NA           NA              NA           NA
+## 4              34            NA           NA              NA           NA
+## 5              34            NA           NA              NA           NA
+## 6              34            NA           NA              NA           NA
+##   avg_pitch_arm stddev_pitch_arm var_pitch_arm avg_yaw_arm stddev_yaw_arm
+## 1            NA               NA            NA          NA             NA
+## 2            NA               NA            NA          NA             NA
+## 3            NA               NA            NA          NA             NA
+## 4            NA               NA            NA          NA             NA
+## 5            NA               NA            NA          NA             NA
+## 6            NA               NA            NA          NA             NA
+##   var_yaw_arm gyros_arm_x gyros_arm_y gyros_arm_z accel_arm_x accel_arm_y
+## 1          NA        0.00        0.00       -0.02        -288         109
+## 2          NA        0.02       -0.02       -0.02        -290         110
+## 3          NA        0.02       -0.02       -0.02        -289         110
+## 4          NA        0.02       -0.03        0.02        -289         111
+## 5          NA        0.00       -0.03        0.00        -289         111
+## 6          NA        0.02       -0.03        0.00        -289         111
+##   accel_arm_z magnet_arm_x magnet_arm_y magnet_arm_z kurtosis_roll_arm
+## 1        -123         -368          337          516                  
+## 2        -125         -369          337          513                  
+## 3        -126         -368          344          513                  
+## 4        -123         -372          344          512                  
+## 5        -123         -374          337          506                  
+## 6        -122         -369          342          513                  
+##   kurtosis_picth_arm kurtosis_yaw_arm skewness_roll_arm skewness_pitch_arm
+## 1                                                                         
+## 2                                                                         
+## 3                                                                         
+## 4                                                                         
+## 5                                                                         
+## 6                                                                         
+##   skewness_yaw_arm max_roll_arm max_picth_arm max_yaw_arm min_roll_arm
+## 1                            NA            NA          NA           NA
+## 2                            NA            NA          NA           NA
+## 3                            NA            NA          NA           NA
+## 4                            NA            NA          NA           NA
+## 5                            NA            NA          NA           NA
+## 6                            NA            NA          NA           NA
+##   min_pitch_arm min_yaw_arm amplitude_roll_arm amplitude_pitch_arm
+## 1            NA          NA                 NA                  NA
+## 2            NA          NA                 NA                  NA
+## 3            NA          NA                 NA                  NA
+## 4            NA          NA                 NA                  NA
+## 5            NA          NA                 NA                  NA
+## 6            NA          NA                 NA                  NA
+##   amplitude_yaw_arm roll_dumbbell pitch_dumbbell yaw_dumbbell
+## 1                NA      13.05217      -70.49400    -84.87394
+## 2                NA      13.13074      -70.63751    -84.71065
+## 3                NA      12.85075      -70.27812    -85.14078
+## 4                NA      13.43120      -70.39379    -84.87363
+## 5                NA      13.37872      -70.42856    -84.85306
+## 6                NA      13.38246      -70.81759    -84.46500
+##   kurtosis_roll_dumbbell kurtosis_picth_dumbbell kurtosis_yaw_dumbbell
+## 1                                                                     
+## 2                                                                     
+## 3                                                                     
+## 4                                                                     
+## 5                                                                     
+## 6                                                                     
+##   skewness_roll_dumbbell skewness_pitch_dumbbell skewness_yaw_dumbbell
+## 1                                                                     
+## 2                                                                     
+## 3                                                                     
+## 4                                                                     
+## 5                                                                     
+## 6                                                                     
+##   max_roll_dumbbell max_picth_dumbbell max_yaw_dumbbell min_roll_dumbbell
+## 1                NA                 NA                                 NA
+## 2                NA                 NA                                 NA
+## 3                NA                 NA                                 NA
+## 4                NA                 NA                                 NA
+## 5                NA                 NA                                 NA
+## 6                NA                 NA                                 NA
+##   min_pitch_dumbbell min_yaw_dumbbell amplitude_roll_dumbbell
+## 1                 NA                                       NA
+## 2                 NA                                       NA
+## 3                 NA                                       NA
+## 4                 NA                                       NA
+## 5                 NA                                       NA
+## 6                 NA                                       NA
+##   amplitude_pitch_dumbbell amplitude_yaw_dumbbell total_accel_dumbbell
+## 1                       NA                                          37
+## 2                       NA                                          37
+## 3                       NA                                          37
+## 4                       NA                                          37
+## 5                       NA                                          37
+## 6                       NA                                          37
+##   var_accel_dumbbell avg_roll_dumbbell stddev_roll_dumbbell var_roll_dumbbell
+## 1                 NA                NA                   NA                NA
+## 2                 NA                NA                   NA                NA
+## 3                 NA                NA                   NA                NA
+## 4                 NA                NA                   NA                NA
+## 5                 NA                NA                   NA                NA
+## 6                 NA                NA                   NA                NA
+##   avg_pitch_dumbbell stddev_pitch_dumbbell var_pitch_dumbbell avg_yaw_dumbbell
+## 1                 NA                    NA                 NA               NA
+## 2                 NA                    NA                 NA               NA
+## 3                 NA                    NA                 NA               NA
+## 4                 NA                    NA                 NA               NA
+## 5                 NA                    NA                 NA               NA
+## 6                 NA                    NA                 NA               NA
+##   stddev_yaw_dumbbell var_yaw_dumbbell gyros_dumbbell_x gyros_dumbbell_y
+## 1                  NA               NA                0            -0.02
+## 2                  NA               NA                0            -0.02
+## 3                  NA               NA                0            -0.02
+## 4                  NA               NA                0            -0.02
+## 5                  NA               NA                0            -0.02
+## 6                  NA               NA                0            -0.02
+##   gyros_dumbbell_z accel_dumbbell_x accel_dumbbell_y accel_dumbbell_z
+## 1             0.00             -234               47             -271
+## 2             0.00             -233               47             -269
+## 3             0.00             -232               46             -270
+## 4            -0.02             -232               48             -269
+## 5             0.00             -233               48             -270
+## 6             0.00             -234               48             -269
+##   magnet_dumbbell_x magnet_dumbbell_y magnet_dumbbell_z roll_forearm
+## 1              -559               293               -65         28.4
+## 2              -555               296               -64         28.3
+## 3              -561               298               -63         28.3
+## 4              -552               303               -60         28.1
+## 5              -554               292               -68         28.0
+## 6              -558               294               -66         27.9
+##   pitch_forearm yaw_forearm kurtosis_roll_forearm kurtosis_picth_forearm
+## 1         -63.9        -153                                             
+## 2         -63.9        -153                                             
+## 3         -63.9        -152                                             
+## 4         -63.9        -152                                             
+## 5         -63.9        -152                                             
+## 6         -63.9        -152                                             
+##   kurtosis_yaw_forearm skewness_roll_forearm skewness_pitch_forearm
+## 1                                                                  
+## 2                                                                  
+## 3                                                                  
+## 4                                                                  
+## 5                                                                  
+## 6                                                                  
+##   skewness_yaw_forearm max_roll_forearm max_picth_forearm max_yaw_forearm
+## 1                                    NA                NA                
+## 2                                    NA                NA                
+## 3                                    NA                NA                
+## 4                                    NA                NA                
+## 5                                    NA                NA                
+## 6                                    NA                NA                
+##   min_roll_forearm min_pitch_forearm min_yaw_forearm amplitude_roll_forearm
+## 1               NA                NA                                     NA
+## 2               NA                NA                                     NA
+## 3               NA                NA                                     NA
+## 4               NA                NA                                     NA
+## 5               NA                NA                                     NA
+## 6               NA                NA                                     NA
+##   amplitude_pitch_forearm amplitude_yaw_forearm total_accel_forearm
+## 1                      NA                                        36
+## 2                      NA                                        36
+## 3                      NA                                        36
+## 4                      NA                                        36
+## 5                      NA                                        36
+## 6                      NA                                        36
+##   var_accel_forearm avg_roll_forearm stddev_roll_forearm var_roll_forearm
+## 1                NA               NA                  NA               NA
+## 2                NA               NA                  NA               NA
+## 3                NA               NA                  NA               NA
+## 4                NA               NA                  NA               NA
+## 5                NA               NA                  NA               NA
+## 6                NA               NA                  NA               NA
+##   avg_pitch_forearm stddev_pitch_forearm var_pitch_forearm avg_yaw_forearm
+## 1                NA                   NA                NA              NA
+## 2                NA                   NA                NA              NA
+## 3                NA                   NA                NA              NA
+## 4                NA                   NA                NA              NA
+## 5                NA                   NA                NA              NA
+## 6                NA                   NA                NA              NA
+##   stddev_yaw_forearm var_yaw_forearm gyros_forearm_x gyros_forearm_y
+## 1                 NA              NA            0.03            0.00
+## 2                 NA              NA            0.02            0.00
+## 3                 NA              NA            0.03           -0.02
+## 4                 NA              NA            0.02           -0.02
+## 5                 NA              NA            0.02            0.00
+## 6                 NA              NA            0.02           -0.02
+##   gyros_forearm_z accel_forearm_x accel_forearm_y accel_forearm_z
+## 1           -0.02             192             203            -215
+## 2           -0.02             192             203            -216
+## 3            0.00             196             204            -213
+## 4            0.00             189             206            -214
+## 5           -0.02             189             206            -214
+## 6           -0.03             193             203            -215
+##   magnet_forearm_x magnet_forearm_y magnet_forearm_z classe
+## 1              -17              654              476      A
+## 2              -18              661              473      A
+## 3              -18              658              469      A
+## 4              -16              658              469      A
+## 5              -17              655              473      A
+## 6               -9              660              478      A</code></pre>
+</div>
+<div id="clean-the-data" class="section level2">
+<h2>Clean the data</h2>
+<p>Check if in the observations are present NA values or missing OBS that can raise errors/bias during the model training.</p>
+<pre class="r"><code>sum(complete.cases(train))</code></pre>
+<pre><code>## [1] 406</code></pre>
+<p>Too few observation to have a correct training.</p>
+<div id="eliminate-the-columns-with-namissing-values" class="section level3">
+<h3>Eliminate the columns with NA/missing values</h3>
+<p>See column names</p>
+<pre class="r"><code>colnames(train)</code></pre>
+<pre><code>##   [1] &quot;X&quot;                        &quot;user_name&quot;               
+##   [3] &quot;raw_timestamp_part_1&quot;     &quot;raw_timestamp_part_2&quot;    
+##   [5] &quot;cvtd_timestamp&quot;           &quot;new_window&quot;              
+##   [7] &quot;num_window&quot;               &quot;roll_belt&quot;               
+##   [9] &quot;pitch_belt&quot;               &quot;yaw_belt&quot;                
+##  [11] &quot;total_accel_belt&quot;         &quot;kurtosis_roll_belt&quot;      
+##  [13] &quot;kurtosis_picth_belt&quot;      &quot;kurtosis_yaw_belt&quot;       
+##  [15] &quot;skewness_roll_belt&quot;       &quot;skewness_roll_belt.1&quot;    
+##  [17] &quot;skewness_yaw_belt&quot;        &quot;max_roll_belt&quot;           
+##  [19] &quot;max_picth_belt&quot;           &quot;max_yaw_belt&quot;            
+##  [21] &quot;min_roll_belt&quot;            &quot;min_pitch_belt&quot;          
+##  [23] &quot;min_yaw_belt&quot;             &quot;amplitude_roll_belt&quot;     
+##  [25] &quot;amplitude_pitch_belt&quot;     &quot;amplitude_yaw_belt&quot;      
+##  [27] &quot;var_total_accel_belt&quot;     &quot;avg_roll_belt&quot;           
+##  [29] &quot;stddev_roll_belt&quot;         &quot;var_roll_belt&quot;           
+##  [31] &quot;avg_pitch_belt&quot;           &quot;stddev_pitch_belt&quot;       
+##  [33] &quot;var_pitch_belt&quot;           &quot;avg_yaw_belt&quot;            
+##  [35] &quot;stddev_yaw_belt&quot;          &quot;var_yaw_belt&quot;            
+##  [37] &quot;gyros_belt_x&quot;             &quot;gyros_belt_y&quot;            
+##  [39] &quot;gyros_belt_z&quot;             &quot;accel_belt_x&quot;            
+##  [41] &quot;accel_belt_y&quot;             &quot;accel_belt_z&quot;            
+##  [43] &quot;magnet_belt_x&quot;            &quot;magnet_belt_y&quot;           
+##  [45] &quot;magnet_belt_z&quot;            &quot;roll_arm&quot;                
+##  [47] &quot;pitch_arm&quot;                &quot;yaw_arm&quot;                 
+##  [49] &quot;total_accel_arm&quot;          &quot;var_accel_arm&quot;           
+##  [51] &quot;avg_roll_arm&quot;             &quot;stddev_roll_arm&quot;         
+##  [53] &quot;var_roll_arm&quot;             &quot;avg_pitch_arm&quot;           
+##  [55] &quot;stddev_pitch_arm&quot;         &quot;var_pitch_arm&quot;           
+##  [57] &quot;avg_yaw_arm&quot;              &quot;stddev_yaw_arm&quot;          
+##  [59] &quot;var_yaw_arm&quot;              &quot;gyros_arm_x&quot;             
+##  [61] &quot;gyros_arm_y&quot;              &quot;gyros_arm_z&quot;             
+##  [63] &quot;accel_arm_x&quot;              &quot;accel_arm_y&quot;             
+##  [65] &quot;accel_arm_z&quot;              &quot;magnet_arm_x&quot;            
+##  [67] &quot;magnet_arm_y&quot;             &quot;magnet_arm_z&quot;            
+##  [69] &quot;kurtosis_roll_arm&quot;        &quot;kurtosis_picth_arm&quot;      
+##  [71] &quot;kurtosis_yaw_arm&quot;         &quot;skewness_roll_arm&quot;       
+##  [73] &quot;skewness_pitch_arm&quot;       &quot;skewness_yaw_arm&quot;        
+##  [75] &quot;max_roll_arm&quot;             &quot;max_picth_arm&quot;           
+##  [77] &quot;max_yaw_arm&quot;              &quot;min_roll_arm&quot;            
+##  [79] &quot;min_pitch_arm&quot;            &quot;min_yaw_arm&quot;             
+##  [81] &quot;amplitude_roll_arm&quot;       &quot;amplitude_pitch_arm&quot;     
+##  [83] &quot;amplitude_yaw_arm&quot;        &quot;roll_dumbbell&quot;           
+##  [85] &quot;pitch_dumbbell&quot;           &quot;yaw_dumbbell&quot;            
+##  [87] &quot;kurtosis_roll_dumbbell&quot;   &quot;kurtosis_picth_dumbbell&quot; 
+##  [89] &quot;kurtosis_yaw_dumbbell&quot;    &quot;skewness_roll_dumbbell&quot;  
+##  [91] &quot;skewness_pitch_dumbbell&quot;  &quot;skewness_yaw_dumbbell&quot;   
+##  [93] &quot;max_roll_dumbbell&quot;        &quot;max_picth_dumbbell&quot;      
+##  [95] &quot;max_yaw_dumbbell&quot;         &quot;min_roll_dumbbell&quot;       
+##  [97] &quot;min_pitch_dumbbell&quot;       &quot;min_yaw_dumbbell&quot;        
+##  [99] &quot;amplitude_roll_dumbbell&quot;  &quot;amplitude_pitch_dumbbell&quot;
+## [101] &quot;amplitude_yaw_dumbbell&quot;   &quot;total_accel_dumbbell&quot;    
+## [103] &quot;var_accel_dumbbell&quot;       &quot;avg_roll_dumbbell&quot;       
+## [105] &quot;stddev_roll_dumbbell&quot;     &quot;var_roll_dumbbell&quot;       
+## [107] &quot;avg_pitch_dumbbell&quot;       &quot;stddev_pitch_dumbbell&quot;   
+## [109] &quot;var_pitch_dumbbell&quot;       &quot;avg_yaw_dumbbell&quot;        
+## [111] &quot;stddev_yaw_dumbbell&quot;      &quot;var_yaw_dumbbell&quot;        
+## [113] &quot;gyros_dumbbell_x&quot;         &quot;gyros_dumbbell_y&quot;        
+## [115] &quot;gyros_dumbbell_z&quot;         &quot;accel_dumbbell_x&quot;        
+## [117] &quot;accel_dumbbell_y&quot;         &quot;accel_dumbbell_z&quot;        
+## [119] &quot;magnet_dumbbell_x&quot;        &quot;magnet_dumbbell_y&quot;       
+## [121] &quot;magnet_dumbbell_z&quot;        &quot;roll_forearm&quot;            
+## [123] &quot;pitch_forearm&quot;            &quot;yaw_forearm&quot;             
+## [125] &quot;kurtosis_roll_forearm&quot;    &quot;kurtosis_picth_forearm&quot;  
+## [127] &quot;kurtosis_yaw_forearm&quot;     &quot;skewness_roll_forearm&quot;   
+## [129] &quot;skewness_pitch_forearm&quot;   &quot;skewness_yaw_forearm&quot;    
+## [131] &quot;max_roll_forearm&quot;         &quot;max_picth_forearm&quot;       
+## [133] &quot;max_yaw_forearm&quot;          &quot;min_roll_forearm&quot;        
+## [135] &quot;min_pitch_forearm&quot;        &quot;min_yaw_forearm&quot;         
+## [137] &quot;amplitude_roll_forearm&quot;   &quot;amplitude_pitch_forearm&quot; 
+## [139] &quot;amplitude_yaw_forearm&quot;    &quot;total_accel_forearm&quot;     
+## [141] &quot;var_accel_forearm&quot;        &quot;avg_roll_forearm&quot;        
+## [143] &quot;stddev_roll_forearm&quot;      &quot;var_roll_forearm&quot;        
+## [145] &quot;avg_pitch_forearm&quot;        &quot;stddev_pitch_forearm&quot;    
+## [147] &quot;var_pitch_forearm&quot;        &quot;avg_yaw_forearm&quot;         
+## [149] &quot;stddev_yaw_forearm&quot;       &quot;var_yaw_forearm&quot;         
+## [151] &quot;gyros_forearm_x&quot;          &quot;gyros_forearm_y&quot;         
+## [153] &quot;gyros_forearm_z&quot;          &quot;accel_forearm_x&quot;         
+## [155] &quot;accel_forearm_y&quot;          &quot;accel_forearm_z&quot;         
+## [157] &quot;magnet_forearm_x&quot;         &quot;magnet_forearm_y&quot;        
+## [159] &quot;magnet_forearm_z&quot;         &quot;classe&quot;</code></pre>
+<pre class="r"><code>plot(colMeans(is.na(train)))</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /> There are columns with a lot of missing values.</p>
+<p>We will reatain only the columns without NA values</p>
+<p>First covert all the data in NUMERIC form to coerce the empty factor to NA</p>
+<pre class="r"><code>trainClasse = train$classe
+trainRaw = train[, sapply(train, is.numeric)]
+testRaw = test[, sapply(test, is.numeric)]</code></pre>
+<p>Remove columns with NA values</p>
+<pre class="r"><code>trainFilter &lt;- trainRaw[, colSums(is.na(trainRaw)) == 0]
+# Attach Classe variable
+trainFilter$classe = trainClasse
+testFilter &lt;- testRaw[, colSums(is.na(testRaw)) == 0]</code></pre>
+<p>Display Dimension</p>
+<pre class="r"><code>dim(trainFilter)</code></pre>
+<pre><code>## [1] 19622    57</code></pre>
+<pre class="r"><code>dim(testFilter)</code></pre>
+<pre><code>## [1] 20 57</code></pre>
+<p>Removing other unuseful columns like username, timestamp and ID</p>
+<pre class="r"><code>unwanted = !grepl(&quot;X|timestamp&quot;, colnames(trainFilter))
+cols = colnames(trainFilter)[unwanted]
+trainFilter = trainFilter 
+  #select(cols)
+unwanted = !grepl(&quot;X|timestamp&quot;, colnames(testFilter))
+cols = colnames(testFilter)[unwanted]
+testFilter = testFilter 
+  #select(cols)</code></pre>
+<p>Get dimension of the filtered dataset</p>
+<pre class="r"><code>dim(trainFilter)</code></pre>
+<pre><code>## [1] 19622    57</code></pre>
+<pre class="r"><code>dim(testFilter)</code></pre>
+<pre><code>## [1] 20 57</code></pre>
+</div>
+</div>
+<div id="slice-the-data" class="section level2">
+<h2>Slice the data</h2>
+<p>We will slice the Training data into <strong>Training</strong> and <strong>Validation</strong> set using the 80-20 rule.</p>
+<pre class="r"><code>set.seed(12022018) # Today&#39;s date
+inTrain &lt;- createDataPartition(trainFilter$classe, p=0.70, list=F)
+trainData &lt;- trainFilter[inTrain, ]
+validationData &lt;- trainFilter[-inTrain, ]
+dim(trainData)</code></pre>
+<pre><code>## [1] 13737    57</code></pre>
+</div>
+<div id="data-modeling" class="section level1">
+<h1>Data modeling</h1>
+<p>We will fit a model using <strong>Random Forest</strong> and <strong>XGBoost</strong> (very popular in challange like kaggle.com) for several reasons:</p>
+<ol style="list-style-type: decimal">
+<li><p>With tree-based models, <strong>you can safely ignore</strong> predictors correlation issues</p></li>
+<li><p>Zero- and Near Zero-Variance Predictors <strong>does not</strong> imply on tree-based models</p></li>
+<li><p>As each feature is processed separately, and the possible splits of the data don’t depend on scaling, no preprocessing like normalization or standardization of features is needed for decision tree algorithms.</p></li>
+</ol>
+<div id="random-forest" class="section level2">
+<h2>Random forest</h2>
+<div id="model" class="section level3">
+<h3>Model</h3>
+<pre class="r"><code>controlRf &lt;- trainControl(method=&quot;cv&quot;, 5, allowParallel = TRUE)
+modelRf &lt;- train(classe ~ ., data=trainData, method=&quot;rf&quot;, trControl=controlRf, ntree=250)
+modelRf</code></pre>
+<pre><code>## Random Forest 
+## 
+## 13737 samples
+##    56 predictor
+##     5 classes: &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## Summary of sample sizes: 10990, 10988, 10989, 10990, 10991 
+## Resampling results across tuning parameters:
+## 
+##   mtry  Accuracy   Kappa    
+##    2    0.9983259  0.9978824
+##   29    0.9997089  0.9996317
+##   56    0.9995632  0.9994475
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final value used for the model was mtry = 29.</code></pre>
+</div>
+<div id="performance-of-the-model-on-the-validation-data-set" class="section level3">
+<h3>Performance of the model on the validation data set</h3>
+<pre class="r"><code>predict_rf &lt;- predict(modelRf, validationData)</code></pre>
+<p>Very accurate model to classify <strong>classe</strong> feature</p>
+</div>
+</div>
+<div id="xgboost" class="section level2">
+<h2>XGBoost</h2>
+<pre class="r"><code>controlXGB &lt;- trainControl(method=&quot;cv&quot;, 5, allowParallel = TRUE)
+modelXGB &lt;- train(classe ~ ., data=trainData, method=&quot;xgbTree&quot;, trControl=controlXGB)</code></pre>
+<pre class="r"><code>modelXGB</code></pre>
+<pre><code>## eXtreme Gradient Boosting 
+## 
+## 13737 samples
+##    56 predictor
+##     5 classes: &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## Summary of sample sizes: 10991, 10989, 10991, 10988, 10989 
+## Resampling results across tuning parameters:
+## 
+##   eta  max_depth  colsample_bytree  subsample  nrounds  Accuracy   Kappa    
+##   0.3  1          0.6               0.50        50      0.9999272  0.9999079
+##   0.3  1          0.6               0.50       100      0.9998543  0.9998158
+##   0.3  1          0.6               0.50       150      0.9998543  0.9998158
+##   0.3  1          0.6               0.75        50      0.9997087  0.9996316
+##   0.3  1          0.6               0.75       100      0.9997087  0.9996316
+##   0.3  1          0.6               0.75       150      0.9997087  0.9996316
+##   0.3  1          0.6               1.00        50      0.9997087  0.9996316
+##   0.3  1          0.6               1.00       100      0.9997087  0.9996316
+##   0.3  1          0.6               1.00       150      0.9997087  0.9996316
+##   0.3  1          0.8               0.50        50      0.9997816  0.9997237
+##   0.3  1          0.8               0.50       100      0.9997816  0.9997237
+##   0.3  1          0.8               0.50       150      0.9997816  0.9997237
+##   0.3  1          0.8               0.75        50      0.9997087  0.9996316
+##   0.3  1          0.8               0.75       100      0.9997087  0.9996316
+##   0.3  1          0.8               0.75       150      0.9997087  0.9996316
+##   0.3  1          0.8               1.00        50      0.9997087  0.9996316
+##   0.3  1          0.8               1.00       100      0.9997087  0.9996316
+##   0.3  1          0.8               1.00       150      0.9997087  0.9996316
+##   0.3  2          0.6               0.50        50      0.9997816  0.9997237
+##   0.3  2          0.6               0.50       100      0.9997816  0.9997237
+##   0.3  2          0.6               0.50       150      0.9997816  0.9997237
+##   0.3  2          0.6               0.75        50      0.9997087  0.9996316
+##   0.3  2          0.6               0.75       100      0.9997087  0.9996316
+##   0.3  2          0.6               0.75       150      0.9997087  0.9996316
+##   0.3  2          0.6               1.00        50      0.9997087  0.9996316
+##   0.3  2          0.6               1.00       100      0.9997087  0.9996316
+##   0.3  2          0.6               1.00       150      0.9997087  0.9996316
+##   0.3  2          0.8               0.50        50      0.9997087  0.9996316
+##   0.3  2          0.8               0.50       100      0.9997087  0.9996316
+##   0.3  2          0.8               0.50       150      0.9997087  0.9996316
+##   0.3  2          0.8               0.75        50      0.9997087  0.9996316
+##   0.3  2          0.8               0.75       100      0.9997087  0.9996316
+##   0.3  2          0.8               0.75       150      0.9997087  0.9996316
+##   0.3  2          0.8               1.00        50      0.9997087  0.9996316
+##   0.3  2          0.8               1.00       100      0.9997087  0.9996316
+##   0.3  2          0.8               1.00       150      0.9997087  0.9996316
+##   0.3  3          0.6               0.50        50      0.9998544  0.9998158
+##   0.3  3          0.6               0.50       100      0.9999272  0.9999079
+##   0.3  3          0.6               0.50       150      0.9999272  0.9999079
+##   0.3  3          0.6               0.75        50      0.9997087  0.9996316
+##   0.3  3          0.6               0.75       100      0.9997087  0.9996316
+##   0.3  3          0.6               0.75       150      0.9997087  0.9996316
+##   0.3  3          0.6               1.00        50      0.9997087  0.9996316
+##   0.3  3          0.6               1.00       100      0.9997087  0.9996316
+##   0.3  3          0.6               1.00       150      0.9997087  0.9996316
+##   0.3  3          0.8               0.50        50      0.9998543  0.9998158
+##   0.3  3          0.8               0.50       100      0.9998543  0.9998158
+##   0.3  3          0.8               0.50       150      0.9998543  0.9998158
+##   0.3  3          0.8               0.75        50      0.9997087  0.9996316
+##   0.3  3          0.8               0.75       100      0.9997087  0.9996316
+##   0.3  3          0.8               0.75       150      0.9997087  0.9996316
+##   0.3  3          0.8               1.00        50      0.9997087  0.9996316
+##   0.3  3          0.8               1.00       100      0.9997087  0.9996316
+##   0.3  3          0.8               1.00       150      0.9997087  0.9996316
+##   0.4  1          0.6               0.50        50      0.9997087  0.9996316
+##   0.4  1          0.6               0.50       100      0.9997816  0.9997237
+##   0.4  1          0.6               0.50       150      0.9997816  0.9997237
+##   0.4  1          0.6               0.75        50      0.9997087  0.9996316
+##   0.4  1          0.6               0.75       100      0.9997087  0.9996316
+##   0.4  1          0.6               0.75       150      0.9997087  0.9996316
+##   0.4  1          0.6               1.00        50      0.9997087  0.9996316
+##   0.4  1          0.6               1.00       100      0.9997087  0.9996316
+##   0.4  1          0.6               1.00       150      0.9997087  0.9996316
+##   0.4  1          0.8               0.50        50      0.9997087  0.9996316
+##   0.4  1          0.8               0.50       100      0.9997087  0.9996316
+##   0.4  1          0.8               0.50       150      0.9997087  0.9996316
+##   0.4  1          0.8               0.75        50      0.9997087  0.9996316
+##   0.4  1          0.8               0.75       100      0.9997087  0.9996316
+##   0.4  1          0.8               0.75       150      0.9997087  0.9996316
+##   0.4  1          0.8               1.00        50      0.9997087  0.9996316
+##   0.4  1          0.8               1.00       100      0.9997087  0.9996316
+##   0.4  1          0.8               1.00       150      0.9997087  0.9996316
+##   0.4  2          0.6               0.50        50      0.9997816  0.9997237
+##   0.4  2          0.6               0.50       100      0.9997816  0.9997237
+##   0.4  2          0.6               0.50       150      0.9997816  0.9997237
+##   0.4  2          0.6               0.75        50      0.9997087  0.9996316
+##   0.4  2          0.6               0.75       100      0.9997087  0.9996316
+##   0.4  2          0.6               0.75       150      0.9997087  0.9996316
+##   0.4  2          0.6               1.00        50      0.9997087  0.9996316
+##   0.4  2          0.6               1.00       100      0.9997087  0.9996316
+##   0.4  2          0.6               1.00       150      0.9997087  0.9996316
+##   0.4  2          0.8               0.50        50      0.9998544  0.9998158
+##   0.4  2          0.8               0.50       100      0.9998544  0.9998158
+##   0.4  2          0.8               0.50       150      0.9998544  0.9998158
+##   0.4  2          0.8               0.75        50      0.9997087  0.9996316
+##   0.4  2          0.8               0.75       100      0.9997087  0.9996316
+##   0.4  2          0.8               0.75       150      0.9997087  0.9996316
+##   0.4  2          0.8               1.00        50      0.9997087  0.9996316
+##   0.4  2          0.8               1.00       100      0.9997087  0.9996316
+##   0.4  2          0.8               1.00       150      0.9997087  0.9996316
+##   0.4  3          0.6               0.50        50      0.9997816  0.9997237
+##   0.4  3          0.6               0.50       100      0.9997816  0.9997237
+##   0.4  3          0.6               0.50       150      0.9997816  0.9997237
+##   0.4  3          0.6               0.75        50      0.9997087  0.9996316
+##   0.4  3          0.6               0.75       100      0.9997087  0.9996316
+##   0.4  3          0.6               0.75       150      0.9997087  0.9996316
+##   0.4  3          0.6               1.00        50      0.9997087  0.9996316
+##   0.4  3          0.6               1.00       100      0.9997087  0.9996316
+##   0.4  3          0.6               1.00       150      0.9997087  0.9996316
+##   0.4  3          0.8               0.50        50      0.9997087  0.9996316
+##   0.4  3          0.8               0.50       100      0.9997087  0.9996316
+##   0.4  3          0.8               0.50       150      0.9997087  0.9996316
+##   0.4  3          0.8               0.75        50      0.9997087  0.9996316
+##   0.4  3          0.8               0.75       100      0.9997087  0.9996316
+##   0.4  3          0.8               0.75       150      0.9997087  0.9996316
+##   0.4  3          0.8               1.00        50      0.9997087  0.9996316
+##   0.4  3          0.8               1.00       100      0.9997087  0.9996316
+##   0.4  3          0.8               1.00       150      0.9997087  0.9996316
+## 
+## Tuning parameter &#39;gamma&#39; was held constant at a value of 0
+## Tuning
+##  parameter &#39;min_child_weight&#39; was held constant at a value of 1
+## Accuracy was used to select the optimal model using the largest value.
+## The final values used for the model were nrounds = 50, max_depth = 1, eta
+##  = 0.3, gamma = 0, colsample_bytree = 0.6, min_child_weight = 1 and subsample
+##  = 0.5.</code></pre>
+<div id="performance-of-the-model-on-the-validation-data-set-1" class="section level3">
+<h3>Performance of the model on the validation data set</h3>
+<pre class="r"><code>predict_XGB &lt;- predict(modelXGB, validationData)
+#confusionMatrix(validationData$classe, predict_XGB)</code></pre>
+<p>With XGB we reach a better accuracy on validation data.</p>
+<p>Only 2 mislabeled prediction A-&gt;B</p>
+</div>
+</div>
+</div>
+<div id="compare-models" class="section level1">
+<h1>Compare models</h1>
+<pre class="r"><code># collect resamples
+model_results &lt;- resamples(list(RF=modelRf, XGB=modelXGB))
+# summarize the distributions
+summary(model_results)</code></pre>
+<pre><code>## 
+## Call:
+## summary.resamples(object = model_results)
+## 
+## Models: RF, XGB 
+## Number of resamples: 5 
+## 
+## Accuracy 
+##          Min.   1st Qu.    Median      Mean 3rd Qu. Max. NA&#39;s
+## RF  0.9992719 0.9996361 0.9996362 0.9997089       1    1    0
+## XGB 0.9996358 1.0000000 1.0000000 0.9999272       1    1    0
+## 
+## Kappa 
+##          Min.   1st Qu.    Median      Mean 3rd Qu. Max. NA&#39;s
+## RF  0.9990790 0.9995397 0.9995399 0.9996317       1    1    0
+## XGB 0.9995394 1.0000000 1.0000000 0.9999079       1    1    0</code></pre>
+<pre class="r"><code># boxplots of results
+bwplot(model_results)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre class="r"><code># dot plots of results
+dotplot(model_results)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-17-2.png" width="672" /> # Predict Test data with RF and XGB</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
